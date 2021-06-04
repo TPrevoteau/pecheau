@@ -76,6 +76,9 @@ export class Login extends Component {
         renderDisplay = (
         <div>
             <header className="App-header">
+              <img src="./logo.png" alt="Logo de Pech'Eau" />
+              <h1>Pech'Eau</h1>
+              <div className="home-instructions" >Connectez-vous avec Google pour utiliser Pech'Eau</div>
 	            <GoogleLogin
 	                clientId={CONFIG.login.clientId}
 	                buttonText="Se connecter avec Google"
