@@ -61,8 +61,6 @@ class Hubeau extends React.Component {
       stationByRegion = items.filter(function(item){return (item.region === "centre");});
 
       console.log(stationByRegion);
-      
-      const { error, isLoaded, data, items } = this.state;
 
       if (error) {
         return <div>Error: {error.message}</div>;
