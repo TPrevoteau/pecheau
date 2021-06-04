@@ -61,6 +61,7 @@ class Hubeau extends React.Component {
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
+        var fishId = 0;
         return (
          <div>
               <MapContainer center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
@@ -78,7 +79,7 @@ class Hubeau extends React.Component {
                    <ul>
                     {          
                        data.map(data => (
-                        <li key={data.id}>
+                        <li key={fishId++}>
                           {data.nom_poisson + " : " + data.effectif} 
                         </li>
                         ))
