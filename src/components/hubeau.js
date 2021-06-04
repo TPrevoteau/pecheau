@@ -71,7 +71,7 @@ class Hubeau extends React.Component {
                 />
                            
 
-              {items.map(items => <Marker key={items.id} position={[items.y, items.x]} 
+              {items.map(items => <Marker key={items.stationId} position={[items.y, items.x]} 
               eventHandlers={{click: (e) => {this.fishByStation(items.stationId)}}}>
                 <Popup>
                   <Meteo x={items.x} y={items.y}/>
@@ -88,17 +88,7 @@ class Hubeau extends React.Component {
               </Marker>)
               }
               <GeoJSON data={centre} />
-            </MapContainer>       
-
-            <ul>
-                {          
-                    items.map(items => (
-                    <li key={items.id}>
-                     {items.region} 
-                    </li>
-                     ))
-                }
-            </ul>
+            </MapContainer>
           </div>
         );
       }
