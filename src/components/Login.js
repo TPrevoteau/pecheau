@@ -80,7 +80,7 @@ export class Login extends Component {
 	                buttonText="Se connecter avec Google"
 	                onSuccess={this.loginSuccess}
 	                onFailure={this.loginFailure}
-	                cookiePolicy={'single_host_origin'}
+	                cookiePolicy={'none'}
 	                isSignedIn={true}
 	            />
         	</header>
