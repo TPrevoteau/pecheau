@@ -79,7 +79,7 @@ class Meteo extends React.Component {
       } else {
         return (
          <div className="weather">
-            <img className="weather-icon" src={weatherIcon}/>
+            <img className="weather-icon" src={weatherIcon} alt=""/>
             <div className="weather-text">{weatherText}</div>
             <div className="weather-temp">{weatherTemp}°C</div>
           </div>
