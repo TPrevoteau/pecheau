@@ -53,10 +53,10 @@ export class Login extends Component {
       renderDisplay = (
       <div>
       	<div className="navbar">
-      		<a><img className="imgProfile" src={this.state.imageUrl} alt={this.state.name} /></a>
-	      	<a className="navbar-text">{this.state.name}</a>
-		  	<a className="navbar-text">{this.state.email}</a>
-		  	<a className="buttonLogout">	        
+      		<img className="imgProfile" src={this.state.imageUrl} alt={this.state.name} />
+	      	<label className="navbar-text">{this.state.name}</label>
+		  	<label className="navbar-text">{this.state.email}</label>
+		  	<div className="buttonLogout">	        
 	      	  	<GoogleLogout
 		            clientId={CONFIG.login.clientId}
 		            buttonText="Se deconnecter"
@@ -64,7 +64,7 @@ export class Login extends Component {
 		            onFailure={this.logoutFailure}
 		        >
 		        </GoogleLogout>
-	      </a>
+	      </div>
         </div>
         <div className="hubeau-app">
         	<Hubeau/>
