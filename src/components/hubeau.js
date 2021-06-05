@@ -1,6 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
-import centre from "../region/centre.json";
+import listOfRegion from "../region/region.json" ; 
 import Meteo from "./meteo.js";
 
 class Hubeau extends React.Component {
@@ -12,11 +12,17 @@ class Hubeau extends React.Component {
         isLoaded: false,
         items: [],
         data: [],
-        region: []
+        selectedRegion: "centre",
       };
+    
+      this.handleChange = this.handleChange.bind(this);
     }
 
-//https://mbm11j64gj.execute-api.eu-west-3.amazonaws.com/default/GetCodeStation
+    handleChange(event) {    
+      this.setState({selectedRegion: event.target.value});  
+      console.log(this.state.selectedRegion);
+    }
+
     componentDidMount() {
       fetch("https://mbm11j64gj.execute-api.eu-west-3.amazonaws.com/default/GetCodeStation")
       .then(res => res.json())
@@ -54,13 +60,14 @@ class Hubeau extends React.Component {
     }
 
 
-    render() {
+   
+
+    render() {  
       var stationByRegion = [];
-      const { error, isLoaded, data, items } = this.state;
-
-      stationByRegion = items.filter(function(item){return (item.region === "centre");});
-
-      console.log(stationByRegion);
+      var selectedRegion = this.state.selectedRegion;
+      const { error, isLoaded, data, items} = this.state;
+      stationByRegion = items.filter(function(item){return (item.region === selectedRegion);});
+      console.log(this.state.selectedRegion)
 
       if (error) {
         return <div>Error: {error.message}</div>;
@@ -69,8 +76,8 @@ class Hubeau extends React.Component {
       } else {
         return (
          <div>
-              <MapContainer center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
-            
+            <MapContainer center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
+            <GeoJSON key="test" data={listOfRegion} />
              <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -93,18 +100,26 @@ class Hubeau extends React.Component {
                 </Popup>
               </Marker>)
               }
-              <GeoJSON data={centre} />
-            </MapContainer>       
+           
 
-            <ul>
-                {          
-                    items.map(items => (
-                    <li key={items.id}>
-                     {items.region} 
-                    </li>
-                     ))
-                }
-            </ul>
+            </MapContainer>  
+            <form >     
+              <select value={this.state.selectedRegion} onChange={this.handleChange}>
+                <option value="auvergne" >Auvergne-Rhône-Alpes</option>
+                <option value="bourgogne" >Bourgogne-Franche-Comté</option>
+                <option value="bretagne" >Bretagne</option>
+                <option value="centre" >Centre-Val de Loire</option>
+                <option value="corse" >Corse</option>
+                <option value="grandEst" >Grand Est</option>
+                <option value="hautDeFrance" >Hauts-de-France</option>
+                <option value="ileDeFrance" >Île-de-France</option>
+                <option value="normandie" >Normandie</option>
+                <option value="nouvelleAquitaine" >Nouvelle-Aquitaine</option>
+                <option value="occitanie" >Occitanie</option>
+                <option value="paysDeLaLoire" >Pays de la Loire</option>
+                <option value="provence" >Provence-Alpes-Côte d'Azur</option>
+              </select>  
+            </form>
           </div>
         );
       }
