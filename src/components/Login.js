@@ -3,6 +3,43 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import Hubeau from "./hubeau.js";
 const CONFIG = require('../config');
 
+var AWS = require("aws-sdk");
+
+function modify(email, name, imageUrl){
+
+  let awsConfig = {
+    "region": "eu-west-3",
+    "endpoint": "http://dynamodb.eu-west-3.amazonaws.com",
+    "accessKeyId": "AKIA2G7TKZLRHOT7J5CQ", "secretAccessKey": "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"
+  };
+
+  AWS.config.update(awsConfig);
+
+  let docClient = new AWS.DynamoDB.DocumentClient();
+
+  var params = {
+    TableName: "users",
+    Key: { "email_id": email },
+    UpdateExpression: "set #n = if_not_exists(#n, :name), image = if_not_exists(image, :imageUrl)",
+    ExpressionAttributeValues: {
+      ":name": name,
+      ":imageUrl": imageUrl
+    },
+
+    ExpressionAttributeNames: {
+      "#n": "name"
+    },
+    ReturnValues: "UPDATED_NEW"
+  };
+
+  docClient.update(params, function (err, data) {
+    if (err) {
+      console.log("users::update::error - " + JSON.stringify(err, null, 2));
+    } else {
+      console.log("users::update::success "+JSON.stringify(data) );
+    }
+ });
+}
 
 export class Login extends Component {
 
@@ -24,6 +61,7 @@ export class Login extends Component {
       imageUrl: response.profileObj.imageUrl,
       isConnected: true
     });
+    modify(response.profileObj.email,response.profileObj.name,response.profileObj.imageUrl);
   }
 
   logoutSuccess=()=>{
