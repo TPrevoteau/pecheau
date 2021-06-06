@@ -77,7 +77,25 @@ class Hubeau extends React.Component {
         var fishId = 0;
         return (
          <div>
-            <MapContainer center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
+           <form className="hubeau-form" >
+            <label>Région : </label>
+              <select value={this.state.selectedRegion} onChange={this.handleChange}>
+                <option value="auvergne" >Auvergne-Rhône-Alpes</option>
+                <option value="bourgogne" >Bourgogne-Franche-Comté</option>
+                <option value="bretagne" >Bretagne</option>
+                <option value="centre" >Centre-Val de Loire</option>
+                <option value="corse" >Corse</option>
+                <option value="grandEst" >Grand Est</option>
+                <option value="hautDeFrance" >Hauts-de-France</option>
+                <option value="ileDeFrance" >Île-de-France</option>
+                <option value="normandie" >Normandie</option>
+                <option value="nouvelleAquitaine" >Nouvelle-Aquitaine</option>
+                <option value="occitanie" >Occitanie</option>
+                <option value="paysDeLaLoire" >Pays de la Loire</option>
+                <option value="provence" >Provence-Alpes-Côte d'Azur</option>
+              </select>
+            </form>
+            <MapContainer className="hubeau-map" center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
             <GeoJSON key="test" data={listOfRegion} />
              <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -103,24 +121,7 @@ class Hubeau extends React.Component {
               }
            
 
-            </MapContainer>  
-            <form >     
-              <select value={this.state.selectedRegion} onChange={this.handleChange}>
-                <option value="auvergne" >Auvergne-Rhône-Alpes</option>
-                <option value="bourgogne" >Bourgogne-Franche-Comté</option>
-                <option value="bretagne" >Bretagne</option>
-                <option value="centre" >Centre-Val de Loire</option>
-                <option value="corse" >Corse</option>
-                <option value="grandEst" >Grand Est</option>
-                <option value="hautDeFrance" >Hauts-de-France</option>
-                <option value="ileDeFrance" >Île-de-France</option>
-                <option value="normandie" >Normandie</option>
-                <option value="nouvelleAquitaine" >Nouvelle-Aquitaine</option>
-                <option value="occitanie" >Occitanie</option>
-                <option value="paysDeLaLoire" >Pays de la Loire</option>
-                <option value="provence" >Provence-Alpes-Côte d'Azur</option>
-              </select>  
-            </form>
+            </MapContainer> 
           </div>
         );
       }

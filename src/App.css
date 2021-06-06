@@ -15,8 +15,16 @@ body {
   width: 90%;
   margin: auto;
   margin-top: 10px;
+}
+
+.hubeau-map {
   border: solid;
   border-color: #282c34;
+}
+
+.hubeau-form {
+  text-align: center;
+  margin-bottom: 5px;
 }
 
 .leaflet-container {
