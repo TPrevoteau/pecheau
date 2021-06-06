@@ -90,11 +90,12 @@ export class Login extends Component {
     if (this.state.isConnected) {
       renderDisplay = (
       <div>
-      	<div className="navbar">
-      		<a><img className="imgProfile" src={this.state.imageUrl} alt={this.state.name} /></a>
-	      	<a className="navbar-text">{this.state.name}</a>
-		  	<a className="navbar-text">{this.state.email}</a>
-		  	<a className="buttonLogout">	        
+        <div className="navbar">
+          <img className="navbar-logo" src="./logo.png" alt="Logo de Pech'Eau" />
+          <h1 className="navbar-title">Pecheau</h1>
+	      	<label className="navbar-text">{this.state.name}</label>
+          <img className="imgProfile" src={this.state.imageUrl} alt={this.state.email} />
+		  	  <div className="buttonLogout">	        
 	      	  	<GoogleLogout
 		            clientId={CONFIG.login.clientId}
 		            buttonText="Se deconnecter"
@@ -102,7 +103,7 @@ export class Login extends Component {
 		            onFailure={this.logoutFailure}
 		        >
 		        </GoogleLogout>
-	      </a>
+	        </div>
         </div>
         <div className="hubeau-app">
         	<Hubeau/>
@@ -113,6 +114,9 @@ export class Login extends Component {
         renderDisplay = (
         <div>
             <header className="App-header">
+              <img src="./logo.png" alt="Logo de Pech'Eau" />
+              <h1>Pech'Eau</h1>
+              <div className="home-instructions" >Connectez-vous avec Google pour utiliser Pech'Eau</div>
 	            <GoogleLogin
 	                clientId={CONFIG.login.clientId}
 	                buttonText="Se connecter avec Google"
