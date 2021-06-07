@@ -74,36 +74,11 @@ class Hubeau extends React.Component {
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
+        var fishId = 0;
         return (
          <div>
-            <MapContainer center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
-            <GeoJSON key="test" data={listOfRegion} />
-             <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                           
-
-              {stationByRegion.map(stationByRegion => <Marker key={stationByRegion.id} position={[stationByRegion.y, stationByRegion.x]} 
-              eventHandlers={{click: (e) => {this.fishByStation(stationByRegion.stationId)}}}>
-                <Popup>  
-                <Meteo x={items.x} y={items.y}/>               
-                   <ul>
-                    {          
-                       data.map(data => (
-                        <li key={data.id}>
-                          {data.nom_poisson + " : " + data.effectif} 
-                        </li>
-                        ))
-                    }
-                  </ul>
-                </Popup>
-              </Marker>)
-              }
-           
-
-            </MapContainer>  
-            <form >     
+           <form className="hubeau-form" >
+            <label>Région : </label>
               <select value={this.state.selectedRegion} onChange={this.handleChange}>
                 <option value="auvergne" >Auvergne-Rhône-Alpes</option>
                 <option value="bourgogne" >Bourgogne-Franche-Comté</option>
@@ -118,8 +93,35 @@ class Hubeau extends React.Component {
                 <option value="occitanie" >Occitanie</option>
                 <option value="paysDeLaLoire" >Pays de la Loire</option>
                 <option value="provence" >Provence-Alpes-Côte d'Azur</option>
-              </select>  
+              </select>
             </form>
+            <MapContainer className="hubeau-map" center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
+            <GeoJSON key="test" data={listOfRegion} />
+             <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                           
+
+              {stationByRegion.map(stationByRegion => <Marker key={stationByRegion.stationId} position={[stationByRegion.y, stationByRegion.x]} 
+              eventHandlers={{click: (e) => {this.fishByStation(stationByRegion.stationId)}}}>
+                <Popup>  
+                <Meteo x={items.x} y={items.y}/>               
+                   <ul>
+                    {          
+                       data.map(data => (
+                        <li key={fishId++}>
+                          {data.nom_poisson + " : " + data.effectif} 
+                        </li>
+                        ))
+                    }
+                  </ul>
+                </Popup>
+              </Marker>)
+              }
+           
+
+            </MapContainer> 
           </div>
         );
       }
