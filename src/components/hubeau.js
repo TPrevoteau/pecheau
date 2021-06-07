@@ -119,7 +119,7 @@ class Hubeau extends React.Component {
                 </Popup>
               </Marker>)
               }
-           
+
 
             </MapContainer> 
           </div>
