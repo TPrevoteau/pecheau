@@ -2,6 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import listOfRegion from "../region/region.json" ; 
 import Meteo from "./meteo.js";
+import Comments from "./Comments.js";
 
 class Hubeau extends React.Component {
     
@@ -95,33 +96,35 @@ class Hubeau extends React.Component {
                 <option value="provence" >Provence-Alpes-Côte d'Azur</option>
               </select>
             </form>
-            <MapContainer className="hubeau-map" center={[49.766063546, 3.188467932]} zoom={7} scrollWheelZoom={false}>
-            <GeoJSON key="test" data={listOfRegion} />
-             <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                           
+            <MapContainer className="hubeau-map" center={[47, 2]} zoom={6}>
+              <GeoJSON key="test" data={listOfRegion} />
+              <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                            
 
-              {stationByRegion.map(stationByRegion => <Marker key={stationByRegion.stationId} position={[stationByRegion.y, stationByRegion.x]} 
-              eventHandlers={{click: (e) => {this.fishByStation(stationByRegion.stationId)}}}>
-                <Popup>  
-                <Meteo x={stationByRegion.x} y={stationByRegion.y}/>               
-                   <ul>
-                    {          
-                       data.map(data => (
-                        <li key={fishId++}>
-                          {data.nom_poisson + " : " + data.effectif} 
-                        </li>
-                        ))
-                    }
-                  </ul>
-                </Popup>
-              </Marker>)
-              }
-           
+                {stationByRegion.map(stationByRegion => <Marker key={stationByRegion.stationId} position={[stationByRegion.y, stationByRegion.x]} 
+                eventHandlers={{click: (e) => {this.fishByStation(stationByRegion.stationId)}}}>
+                  <Popup>  
+                  <Meteo x={stationByRegion.x} y={stationByRegion.y}/>               
+                    <ul>
+                      {          
+                        data.map(data => (
+                          <li key={fishId++}>
+                            {data.nom_poisson + " : " + data.effectif} 
+                          </li>
+                          ))
+                      }
+                    </ul>
+                  </Popup>
+                </Marker>)
+                }
+            
 
             </MapContainer> 
+            <Comments stationId={stationByRegion.stationId}/>  
+
           </div>
         );
       }
