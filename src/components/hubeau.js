@@ -106,7 +106,7 @@ class Hubeau extends React.Component {
               {stationByRegion.map(stationByRegion => <Marker key={stationByRegion.stationId} position={[stationByRegion.y, stationByRegion.x]} 
               eventHandlers={{click: (e) => {this.fishByStation(stationByRegion.stationId)}}}>
                 <Popup>  
-                <Meteo x={items.x} y={items.y}/>               
+                <Meteo x={stationByRegion.x} y={stationByRegion.y}/>               
                    <ul>
                     {          
                        data.map(data => (
