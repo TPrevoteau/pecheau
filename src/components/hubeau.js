@@ -2,7 +2,6 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import listOfRegion from "../region/region.json" ; 
 import Meteo from "./meteo.js";
-import Comments from "./Comments.js";
 
 class Hubeau extends React.Component {
     
@@ -14,6 +13,7 @@ class Hubeau extends React.Component {
         items: [],
         data: [],
         selectedRegion: "centre",
+        selectedStationId: null
       };
     
       this.handleChange = this.handleChange.bind(this);
@@ -45,7 +45,8 @@ class Hubeau extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            data: result.data
+            data: result.data,
+            selectedStationId: stationId
           });
         },
         // Note: it's important to handle errors here
@@ -61,6 +62,29 @@ class Hubeau extends React.Component {
     }
 
 
+    displayComments(){
+      let renderDisplay;
+      if(this.state.selectedStationId != null ){
+        renderDisplay = (
+        <div className="comments">
+        <h2 className="commentsTitle">Ajouter un commentaire</h2>
+        <form className="postComment" onSubmit={this.handleSubmit}>
+        <textarea className="textareaComment" placeholder="Votre commentaire" onChange={this.handleChange} />
+        <input className="submitComment" type="submit" value="Envoyer" />
+        </form>
+        <h2 className="commentsTitle">Commentaires</h2>
+        <h1>{this.state.selectedStationId}</h1>
+      </div>
+        )
+      }else{
+        renderDisplay = (
+        <div className="comments">
+        <h2 className="commentsTitle">Veuillez selectionner une station</h2>
+        </div>
+        )
+      }
+      return renderDisplay;
+    }
    
 
     render() {  
@@ -121,10 +145,8 @@ class Hubeau extends React.Component {
                 </Marker>)
                 }
             
-
             </MapContainer> 
-            <Comments stationId={stationByRegion.stationId}/>  
-
+            {this.displayComments()}
           </div>
         );
       }
