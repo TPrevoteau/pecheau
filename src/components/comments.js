@@ -30,14 +30,18 @@ class Comments extends React.Component {
                 </form>
                 <h2 className="commentsTitle">Commentaires</h2>
                 
-                {
-                  this.props.comms.map(comment => 
+                {this.props.comms.map(comment => 
   
                   <div className="comment">
-                  {comment.email} : {comment.text}
-                  </div>
-                  
-                  )}
+                    
+                    <h3 className="nameComment">
+                      {comment.userInfo.name}
+                      <img className="imgComment" src={comment.userInfo.image} alt={comment.userInfo.email} />
+                    </h3>
+                    <p className="textComment">
+                      {comment.text}
+                    </p>
+                  </div>)}
                
               </div>
                 )
