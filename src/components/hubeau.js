@@ -71,14 +71,15 @@ class Hubeau extends React.Component {
     
       try {
         var params = {
-          TableName: "users",
+          TableName: "testcomments",
           Key: {
-          "email_id": "nosal.loick@gmail.com"
+          "station_id": stationId
           }
         };
         var result = await docClient.get(params).promise();
+        console.log(result.Item.comments);
         this.setState({
-          selectedStationComms: [result.Item.name],
+          selectedStationComms: result.Item.comments
         })
       } catch (error) {
         console.warn(error);

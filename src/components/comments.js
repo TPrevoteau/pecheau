@@ -9,6 +9,7 @@ class Comments extends React.Component {
         console.log(this.props.comms);
         var shouldLoad = this.props.comms.length > 0;
         if(shouldLoad){
+            console.log(this.props.comms.length);
             return (
             <div className="comments">
             <h2 className="commentsTitle">Ajouter un commentaire</h2>
@@ -17,7 +18,9 @@ class Comments extends React.Component {
             <input className="submitComment" type="submit" value="Envoyer" />
             </form>
             <h2 className="commentsTitle">Commentaires</h2>
-            <h1>{this.props.comms[0]}</h1>
+            <ul>
+              {this.props.comms.map(comment => <li>{comment.email} : {comment.text}</li>)}
+           </ul>
           </div>
             )
           }else{
