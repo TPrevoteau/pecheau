@@ -2,6 +2,9 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import listOfRegion from "../region/region.json" ; 
 import Meteo from "./meteo.js";
+import Comments from "./comments.js";
+const CONFIG = require('../config');
+var AWS = require("aws-sdk");
 
 class Hubeau extends React.Component {
     
@@ -13,7 +16,8 @@ class Hubeau extends React.Component {
         items: [],
         data: [],
         selectedRegion: "centre",
-        selectedStationId: null
+        selectedStationId: null,
+        selectedStationComms: [],
       };
     
       this.handleChange = this.handleChange.bind(this);
@@ -38,7 +42,7 @@ class Hubeau extends React.Component {
     }
 
     fishByStation(stationId){
-      console.log(stationId)
+      this.getComms(stationId);
       fetch("https://hubeau.eaufrance.fr/api/v0/etat_piscicole/poissons?code_station="+ stationId +"%2C01020102&format=json&size=20")
       .then(res => res.json())
       .then(
@@ -61,31 +65,25 @@ class Hubeau extends React.Component {
       )
     }
 
-
-    displayComments(){
-      let renderDisplay;
-      if(this.state.selectedStationId != null ){
-        renderDisplay = (
-        <div className="comments">
-        <h2 className="commentsTitle">Ajouter un commentaire</h2>
-        <form className="postComment" onSubmit={this.handleSubmit}>
-        <textarea className="textareaComment" placeholder="Votre commentaire" onChange={this.handleChange} />
-        <input className="submitComment" type="submit" value="Envoyer" />
-        </form>
-        <h2 className="commentsTitle">Commentaires</h2>
-        <h1>{this.state.selectedStationId}</h1>
-      </div>
-        )
-      }else{
-        renderDisplay = (
-        <div className="comments">
-        <h2 className="commentsTitle">Veuillez selectionner une station</h2>
-        </div>
-        )
+    async getComms(stationId){
+      AWS.config.update(CONFIG.AWS);
+      let docClient = new AWS.DynamoDB.DocumentClient();
+    
+      try {
+        var params = {
+          TableName: "users",
+          Key: {
+          "email_id": "nosal.loick@gmail.com"
+          }
+        };
+        var result = await docClient.get(params).promise();
+        this.setState({
+          selectedStationComms: [result.Item.name],
+        })
+      } catch (error) {
+        console.warn(error);
       }
-      return renderDisplay;
     }
-   
 
     render() {  
       var stationByRegion = [];
@@ -146,7 +144,7 @@ class Hubeau extends React.Component {
                 }
             
             </MapContainer> 
-            {this.displayComments()}
+            <Comments comms={this.state.selectedStationComms}/>
           </div>
         );
       }
