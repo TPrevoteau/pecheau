@@ -17,7 +17,7 @@ class Hubeau extends React.Component {
         data: [],
         selectedRegion: "centre",
         selectedStationId: null,
-        selectedStationComms: [],
+        selectedStationComms: null,
       };
     
       this.handleChange = this.handleChange.bind(this);
@@ -77,13 +77,41 @@ class Hubeau extends React.Component {
           }
         };
         var result = await docClient.get(params).promise();
-        console.log(result.Item.comments);
-        this.setState({
-          selectedStationComms: result.Item.comments
-        })
+        if(typeof result.Item === 'undefined'){
+          this.setState({
+            selectedStationComms: []
+          })
+        }else{
+          for (let element of result.Item.comments){
+            element.userInfo = await this.getUserInformation(element.email);
+          }
+          this.setState({
+            selectedStationComms: result.Item.comments
+          })
+        } 
       } catch (error) {
         console.warn(error);
       }
+    }
+
+    async getUserInformation(email){
+      AWS.config.update(CONFIG.AWS);
+      let docClient = new AWS.DynamoDB.DocumentClient();
+      
+      let userInformation;
+      try {
+        var params = {
+          TableName: "users",
+          Key: {
+          "email_id": email
+          }
+        };
+        var result = await docClient.get(params).promise();
+        userInformation = result.Item;
+      } catch (error) {
+        console.warn(error);
+      }
+      return userInformation;
     }
 
     render() {  

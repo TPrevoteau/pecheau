@@ -44,6 +44,16 @@ body {
   border-color: #282c34;
 }
 
+.comment {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 20px;
+  border-width: 1px;
+  height: 100px;
+}
+
 .commentsTitle {
   margin: 5px;
   background-color: rgb(53, 71, 77);
