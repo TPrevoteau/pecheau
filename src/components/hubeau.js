@@ -18,6 +18,7 @@ class Hubeau extends React.Component {
         selectedRegion: "centre",
         selectedStationId: null,
         selectedStationComms: null,
+        user_email: this.props.user_email
       };
     
       this.handleChange = this.handleChange.bind(this);
@@ -77,16 +78,17 @@ class Hubeau extends React.Component {
           }
         };
         var result = await docClient.get(params).promise();
+
         if(typeof result.Item === 'undefined'){
           this.setState({
-            selectedStationComms: []
+            selectedStationComms: {station_id: stationId}
           })
         }else{
           for (let element of result.Item.comments){
             element.userInfo = await this.getUserInformation(element.email);
           }
           this.setState({
-            selectedStationComms: result.Item.comments
+            selectedStationComms: result.Item
           })
         } 
       } catch (error) {
@@ -173,7 +175,7 @@ class Hubeau extends React.Component {
                 }
             
             </MapContainer> 
-            <Comments comms={this.state.selectedStationComms}/>
+            <Comments comms={this.state.selectedStationComms} user_email={this.state.user_email} />
           </div>
         );
       }

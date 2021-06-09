@@ -51,9 +51,9 @@ body {
   margin: auto;
   margin-top: 20px;
   border-radius: 10px;
-  border-width: 1px;
-  height: 100px;
+  height: 120px;
   overflow: auto;
+  position: relative;
 }
 
 .imgComment {
@@ -61,15 +61,24 @@ body {
   margin-left: 5px;
   margin-top: 5px;
   float: left;
-  vertical-align: middle;
+  border-radius: 10px;
 }
 
 .nameComment {
-  
+  margin: 0;
 }
 
 .textComment {
- 
+ margin: 0;
+ margin-left: 5px;
+ margin-top: 10px;
+ float: left;
+}
+
+.dateComment {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
 }
 
 .commentsTitle {

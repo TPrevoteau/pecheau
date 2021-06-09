@@ -100,7 +100,7 @@ export class Login extends Component {
 	        </div>
         </div>
         <div className="hubeau-app">
-        	<Hubeau/>
+        	<Hubeau user_email={this.state.email}/>
         </div>
       </div>
       )
