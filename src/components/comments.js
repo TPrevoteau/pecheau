@@ -21,14 +21,18 @@ class Comments extends React.Component {
     }
 
     handleSubmit(event) { 
-      this.postComment(this.props.comms.station_id, this.state.user_email, this.state.value);
       event.preventDefault();
+      this.postComment(this.props.comms.station_id, this.state.user_email, this.state.value);
+      this.setState({
+        value: ''
+      });
+      
     }
 
     async postComment(station_id, user_id, comment){
+
       AWS.config.update(CONFIG.AWS);
       let docClient = new AWS.DynamoDB.DocumentClient();
-
 
       var params = {
         TableName: "testcomments",
@@ -38,7 +42,7 @@ class Comments extends React.Component {
       };
       var result = await docClient.get(params).promise();
 
-      if(typeof result.Item === 'undefined'){
+      if (typeof result.Item === 'undefined') {
         var input = {
           "station_id": station_id,
           "comments": [
@@ -49,7 +53,7 @@ class Comments extends React.Component {
             }
            ]
         };
-  
+        
         params = {
           TableName: "testcomments",
           Item:  input
@@ -62,13 +66,46 @@ class Comments extends React.Component {
             alert('Commentaire posté !');              
           }
         });
-      }else{
-        alert('Deja des commentaires !');   
+      } else {
+        params = {
+          TableName: "testcomments",
+          Key: {
+          "station_id": station_id
+          }
+        };
+
+        let addComment = {
+          "date": new Date().toString(),
+          "email": user_id,
+          "text": comment
+          };
+        result = await docClient.get(params).promise();
+
+        let currentComments = (JSON.stringify(result.Item.comments)).slice(0, -1);
+        let newComments = currentComments + "," + (JSON.stringify(addComment)) + "]";
+
+        params = {
+          TableName: "testcomments",
+          Key: { "station_id": station_id },
+          UpdateExpression: "set comments = :newComment",
+          ExpressionAttributeValues: {
+            ":newComment": JSON.parse(newComments)
+          },
+          ReturnValues: "UPDATED_NEW"
+        };
+
+        docClient.update(params, function (err, data) {
+          if (err) {
+            alert('Erreur, commentaire non posté');       
+          } else {
+            alert('Commentaire posté !');      
+          }
+        });
       } 
- 
-
-
     }
+
+
+
 
     render() {
         if(this.props.comms != null && this.props.comms.station_id != null){
