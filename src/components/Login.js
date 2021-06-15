@@ -7,13 +7,7 @@ var AWS = require("aws-sdk");
 
 function modify(email, name, imageUrl){
 
-  let awsConfig = {
-    "region": "eu-west-3",
-    "endpoint": "http://dynamodb.eu-west-3.amazonaws.com",
-    "accessKeyId": "AKIA2G7TKZLRHOT7J5CQ", "secretAccessKey": "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"
-  };
-
-  AWS.config.update(awsConfig);
+  AWS.config.update(CONFIG.AWS);
 
   let docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -106,7 +100,7 @@ export class Login extends Component {
 	        </div>
         </div>
         <div className="hubeau-app">
-        	<Hubeau/>
+        	<Hubeau user_email={this.state.email}/>
         </div>
       </div>
       )
@@ -122,7 +116,7 @@ export class Login extends Component {
 	                buttonText="Se connecter avec Google"
 	                onSuccess={this.loginSuccess}
 	                onFailure={this.loginFailure}
-	                cookiePolicy={'single_host_origin'}
+	                cookiePolicy={'none'}
 	                isSignedIn={true}
 	            />
         	</header>

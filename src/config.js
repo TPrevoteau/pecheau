@@ -5,5 +5,11 @@ module.exports = {
     },
     login: {
     	clientId: "1054091480195-grpn789aa9gh48po0r915j2chmv4p0kq.apps.googleusercontent.com"
+    },
+    AWS: {
+        region: "eu-west-3",
+        endpoint: "http://dynamodb.eu-west-3.amazonaws.com",
+        accessKeyId: "AKIA2G7TKZLRHOT7J5CQ",
+        secretAccessKey: "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"
     }
 };
