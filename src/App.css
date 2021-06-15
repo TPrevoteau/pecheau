@@ -35,14 +35,27 @@ body {
 
 .comments {
   text-align: center;
-  float: left;
+  float: right;
   background-color: #ADD8E6;
-  width: 23%;
+  width: 20%;
   height: 85vh;
-  margin-left: 20px;
+  margin-left: 10px;
   border: solid;
   border-color: #282c34;
   overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .comments {
+    float: left;
+    width: 95%;
+  }
+  .leaflet-container {
+    width: 95%;
+    margin-left: 0px;
+    height: 85vh;
+    float: left;
+  }
 }
 
 .comment {
