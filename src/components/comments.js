@@ -122,6 +122,7 @@ class Comments extends React.Component {
               </div>
                 )
             }else{
+              var i=0;
               return (
                 <div className="comments">
                 <h2 className="commentsTitle">Ajouter un commentaire</h2>
@@ -133,7 +134,7 @@ class Comments extends React.Component {
                 
                 {this.props.comms.comments.map(comment => 
   
-                  <div className="comment">
+                  <div key={i++} className="comment">
                     <h3 className="nameComment">
                       {comment.userInfo.name}
                       
